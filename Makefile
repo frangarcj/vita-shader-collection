@@ -36,17 +36,17 @@ tools/raw2c: tools/raw2c.c
 	@mkdir -p $(INCLUDES)
 	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
-	mv $(word 2,$^:.gxp=.h) $(INCLUDES)
-	mv $(word 2,$^:.gxp=.c) $(SOURCES)
-	$(CC) $(CFLAGS) -c $(SOURCES)/$(word 2,$^:.gxp=.c) -o $@
+	mv $($(word 2,$^):.gxp=.h) $(INCLUDES)
+	mv $($(word 2,$^):.gxp=.c) $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)/$($(word 2,$^):.gxp=.c) -o $@
 	
 %_f.o: tools/raw2c %_f.gxp
 	@mkdir -p $(INCLUDES)
 	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
-	mv $(word 2,$^:.gxp=.h) $(INCLUDES)
-	mv $(word 2,$^:.gxp=.c) $(SOURCES)
-	$(CC) $(CFLAGS) -c $(SOURCES)/$(word 2,$^:.gxp=.c) -o $@
+	mv $($(word 2,$^):.gxp=.h) $(INCLUDES)
+	mv $($(word 2,$^):.gxp=.c) $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)/$($(word 2,$^):.gxp=.c) -o $@
 
 clean:
 	@rm -rf $(TARGET_LIB) $(OBJS) $(GXPS) $(INCLUDES) $(SOURCES)
