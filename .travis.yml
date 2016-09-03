@@ -3,7 +3,7 @@ os:
 language: c
 
 before_install:
-  - sudo apt-get install qemu-kvm qemu
+  - sudo apt-get install qemu-kvm qemu qemu-user-static
   - git clone https://github.com/vitadev/vdpm
   - cd vdpm
   - cp config.sample config
