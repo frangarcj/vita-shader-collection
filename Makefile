@@ -24,10 +24,10 @@ tools/raw2c: tools/raw2c.c
 	cc $< -o $@
 
 %_v.gxp: %_v.cg
-  qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --vertex $^ $@
+	qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --vertex $^ $@
 
 %_f.gxp: %_f.cg
-  qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --fragment $^ $@
+	qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --fragment $^ $@
 
 %.o: tools/raw2c $(GXPS)
 	@mkdir -p $(INCLUDES)
