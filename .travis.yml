@@ -11,13 +11,14 @@ before_install:
   - export VITASDK=/usr/local/vitasdk
   - export PATH=$VITASDK/bin:$PATH
   - cd ..
+  - wget https://releases.linaro.org/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - tar xzvj gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - export PATH=$(pwd)/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/bin:$PATH
+  - rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
   - git clone https://github.com/xyzz/vita-shaders
   - cd vita-shaders
   - make
   - cd ..
-  - wget https://releases.linaro.org/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
-  - tar xzvj gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
-  - rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
 
 script:
   - make
