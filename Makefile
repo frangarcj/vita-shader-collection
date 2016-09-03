@@ -5,8 +5,8 @@ SHDIR		 = shaders
 SHADERS   := $(foreach dir,$(SHDIR), $(wildcard $(dir)/*.cg))
 
 
-GXPS       = $(CFILES:.cg=.gxp)
-OBJS       = $(CFILES:.cg=.o)
+GXPS       = $(SHADERS:.cg=.gxp)
+OBJS       = $(SHADERS:.cg=.o)
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
@@ -23,20 +23,30 @@ $(TARGET_LIB): $(OBJS)
 tools/raw2c: tools/raw2c.c
 	cc $< -o $@
 
+
 %_v.gxp: %_v.cg
 	qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --vertex $^ $@
+
 
 %_f.gxp: %_f.cg
 	qemu-arm -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --fragment $^ $@
 
-%.o: tools/raw2c $(GXPS)
+
+%_v.o: tools/raw2c $(GXPS) 
 	@mkdir -p $(INCLUDES)
 	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
 	mv $(^:.gxp=.h) $(INCLUDES)
 	mv $(^:.gxp=.c) $(SOURCES)
-	$(CC) $(CFLAGS) -c $(SOURCES)/stockfont.c -o $(SOURCES)/stockfont.o
-	$(CC) $(CFLAGS) -c $(^:.gxp=.c) -o $@
+	$(CC) $(CFLAGS) -c $(SOURCES)/$(^:.gxp=.c) -o $(SOURCES)/$@
+	
+%_f.o: tools/raw2c $(GXPS) 
+	@mkdir -p $(INCLUDES)
+	@mkdir -p $(SOURCES)
+	$< $(word 2,$^)
+	mv $(^:.gxp=.h) $(INCLUDES)
+	mv $(^:.gxp=.c) $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)/$(^:.gxp=.c) -o $(SOURCES)/$@
 
 clean:
 	@rm -rf $(TARGET_LIB) $(OBJS) $(GXPS) $(INCLUDES) $(SOURCES)
