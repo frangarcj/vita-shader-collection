@@ -36,7 +36,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key: $OAUTH
-  file: "shaders.tar.gz"
+  file: "libvitashaders.a"
   skip_cleanup: true
   on:
     tags: false
