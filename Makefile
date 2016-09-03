@@ -32,21 +32,21 @@ tools/raw2c: tools/raw2c.c
 	qemu-arm-static -L ./gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/arm-linux-gnueabihf/libc/ ./vita-shaders/shacc --fragment $^ $@
 
 
-%_v.o: tools/raw2c $(GXPS) 
+%_v.o: tools/raw2c %_v.gxp
 	@mkdir -p $(INCLUDES)
 	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
-	mv $($(word 2,$^):.gxp=.h) $(INCLUDES)
-	mv $($(word 2,$^):.gxp=.c) $(SOURCES)
-	$(CC) $(CFLAGS) -c $($(word 2,$^):.gxp=.c) -o $@
+	mv $(word 2,$^:.gxp=.h) $(INCLUDES)
+	mv $(word 2,$^:.gxp=.c) $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)/$(word 2,$^:.gxp=.c) -o $@
 	
-%_f.o: tools/raw2c $(GXPS) 
+%_f.o: tools/raw2c %_f.gxp
 	@mkdir -p $(INCLUDES)
 	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
-	mv $(^:.gxp=.h) $(INCLUDES)
-	mv $(^:.gxp=.c) $(SOURCES)
-	$(CC) $(CFLAGS) -c $(^:.gxp=.c) -o $@
+	mv $(word 2,$^:.gxp=.h) $(INCLUDES)
+	mv $(word 2,$^:.gxp=.c) $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)/$(word 2,$^:.gxp=.c) -o $@
 
 clean:
 	@rm -rf $(TARGET_LIB) $(OBJS) $(GXPS) $(INCLUDES) $(SOURCES)
