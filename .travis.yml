@@ -1,0 +1,45 @@
+os:
+  - linux
+language: c
+
+before_install:
+  - sudo apt-get install qemu-kvm qemu
+  - git clone https://github.com/vitadev/vdpm
+  - cd vdpm
+  - cp config.sample config
+  - ./bootstrap-vitasdk.sh
+  - export VITASDK=/usr/local/vitasdk
+  - export PATH=$VITASDK/bin:$PATH
+  - cd ..
+  - git clone https://github.com/xyzz/vita-shaders
+  - cd vita-shaders
+  - make
+  - cd ..
+  - wget https://releases.linaro.org/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - tar xzvj gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+
+script:
+  - make
+env:
+ global:
+  - TOP=$PWD
+  - PREFIX=$TOP/dist
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export GIT_TAG=$TRAVIS_BRANCH-0.1-v$TRAVIS_BUILD_NUMBER
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER - $TRAVIS_OS_NAME"
+  - git push -q https://$TAGPERM@github.com/frangarcj/vita-shader-collection --tags
+deploy:
+  provider: releases
+  api_key: $OAUTH
+  file: "shaders.tar.gz"
+  skip_cleanup: true
+  on:
+    tags: false
+    all_branches: true
+
+branches:
+  except:
+    - /^*-v[0-9]/
