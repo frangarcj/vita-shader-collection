@@ -18,6 +18,7 @@ before_install:
   - git clone https://github.com/xyzz/vita-shaders
   - cd vita-shaders
   - make
+  - mv *.bin ../
   - cd ..
 
 script:
