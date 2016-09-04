@@ -33,16 +33,12 @@ tools/raw2c: tools/raw2c.c
 
 
 %_v.o: tools/raw2c %_v.gxp
-	@mkdir -p $(INCLUDES)
-	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
 	mv *.h $(SHDIR)
 	mv *.c $(SHDIR)
 	$(CC) $(CFLAGS) -c $(patsubst %.gxp,%.c,$(word 2,$^)) -o $@
 	
 %_f.o: tools/raw2c %_f.gxp
-	@mkdir -p $(INCLUDES)
-	@mkdir -p $(SOURCES)
 	$< $(word 2,$^)
 	mv *.h $(SHDIR)
 	mv *.c $(SHDIR)
