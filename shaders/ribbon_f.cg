@@ -3,7 +3,7 @@ uniform UBO
    float time;
 } constants;
 
-void main(float3 vEC,
+void main(float3 vEC : TEXCOORD0,
 float4 out FragColor : COLOR)
 {
    const float3 up = float3(0.0, 0.0, 1.0);
