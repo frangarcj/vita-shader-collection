@@ -1,0 +1,6 @@
+float4 main(
+	float2 vTexcoord : TEXCOORD0,
+	uniform sampler2D tex)
+{
+	return float4(tex2D(tex, vTexcoord).rgb, 1.0);
+}
