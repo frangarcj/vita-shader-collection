@@ -7,8 +7,8 @@ void main(float3 vEC,
 float4 out FragColor : COLOR)
 {
    const float3 up = float3(0.0, 0.0, 1.0);
-   float3 x = dFdx(vEC);
-   float3 y = dFdy(vEC);
+   float3 x = ddx(vEC);
+   float3 y = ddy(vEC);
    float3 normal = normalize(cross(x, y));
    float c = 1.0 - dot(normal, up);
    c = (1.0 - cos(c * c)) / 3.0;
