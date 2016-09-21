@@ -47,5 +47,5 @@ void main(
    v.y -= noise(v3 * 7.0) / 15.0 + cos(v.x * 2.0 - constants.time / 5.0) / 5.0 - 0.3;
 
    vEC = v;
-   vPosition = vec4(v, 1.0);
+   vPosition = float4(v, 1.0);
 }
