@@ -9,6 +9,13 @@ Collection of CG shaders for Playstation VITA
 
 ## List of shaders
 
+### RetroArch core shaders
+
+alpha_blend
+opaque
+ribbon
+ribbon_simple
+
 ### LCD3X by gigaherz
 
 ![LCD3X](http://vignette3.wikia.nocookie.net/emulation-general/images/f/f0/Lcd3x.png/revision/latest?cb=20130729180531)
