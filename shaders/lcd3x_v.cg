@@ -14,7 +14,7 @@ static const int brighten_lcd = 4;
 
 void main (
     uniform float4x4 modelViewProj,
-	float2 texture_size,
+    univorm float2 texture_size,
     float3 position, out float4 oPosition : POSITION,
     float2 tex, out float2 oTex : TEXCOORD0,
     out float2 omega : TEXCOORD1
