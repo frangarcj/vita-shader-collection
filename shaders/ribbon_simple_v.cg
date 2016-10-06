@@ -27,7 +27,6 @@ float xmb_noise2(float3 x)
 
 void main(
   float3 VertexCoord,
-  float3 out vEC : TEXCOORD0,
   float4 out vPosition : POSITION
 )
 {
