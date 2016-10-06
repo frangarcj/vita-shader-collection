@@ -9,6 +9,8 @@ Collection of CG shaders for Playstation VITA
 
 ## List of shaders
 
+Bicubic by XMBC
+
 ### RetroArch core shaders
 
 alpha_blend
