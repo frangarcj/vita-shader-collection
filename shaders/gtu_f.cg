@@ -32,11 +32,11 @@ float4 main(
 	uniform float2 video_size,
 	uniform sampler2D tex): COLOR
 {
-   float2 offset   = fract((vTexcoord.xy * texture_size.xy) - float2(0.5, 0.5));
+   float2 offset   = frac((vTexcoord.xy * texture_size.xy) - float2(0.5, 0.5));
    float3 tempColor = float3(0.0);
    float2 pos;
    float3   c;
-   float range;
+//   float range;
    PROCESS(-1.0, -1.0);PROCESS(-1.0,  0.0);PROCESS(-1.0,  1.0);PROCESS(-1.0,  2.0);
    PROCESS( 0.0, -1.0);PROCESS( 0.0,  0.0);PROCESS( 0.0,  1.0);PROCESS( 0.0,  2.0);
    PROCESS( 1.0, -1.0);PROCESS( 1.0,  0.0);PROCESS( 1.0,  1.0);PROCESS( 1.0,  2.0);
