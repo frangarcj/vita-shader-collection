@@ -14,12 +14,12 @@
 #define d(x,b) (pi*b*min(a(x)+0.5,1.0/b))
 #define e(x,b) (pi*b*min(max(a(x)-0.5,-1.0/b),1.0/b))
 #define STU(x,b) ((d(x,b)+sin(d(x,b))-e(x,b)-sin(e(x,b)))/(2.0*pi))
-#define GETC (tex2D(tex, vTexcoord - pos/texture_size).rgb)
+#define GETC (tex2D(tex, vTexcoord - pos/IN.texture_size).rgb)
 
 #ifdef NO_SCANLINES
-#define VAL (c*STU(pos.x,(signalResolutionX/video_size.x))*STU(pos.y,(signalResolutionY/video_size.y)))
+#define VAL (c*STU(pos.x,(signalResolutionX/IN.video_size.x))*STU(pos.y,(signalResolutionY/IN.video_size.y)))
 #else
-#define VAL (c*STU(pos.x,(signalResolutionX/video_size.x))*GAUSS(pos.y,(signalResolutionY/video_size.y)))
+#define VAL (c*STU(pos.x,(signalResolutionX/IN.video_size.x))*GAUSS(pos.y,(signalResolutionY/IN.video_size.y)))
 #endif
 
 #define PROCESS(i,j) pos=offset-float2(i,j);c=GETC;tempColor+=VAL;
@@ -39,7 +39,7 @@ float4 main(
 	uniform input IN, 
 	uniform sampler2D tex): COLOR
 {
-   float2 offset   = frac((vTexcoord.xy * texture_size.xy) - float2(0.5, 0.5));
+   float2 offset   = frac((vTexcoord.xy * IN.texture_size.xy) - float2(0.5, 0.5));
    float3 tempColor = float3(0.0);
    float2 pos;
    float3   c;
