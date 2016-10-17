@@ -24,12 +24,19 @@
 
 #define PROCESS(i,j) pos=offset-float2(i,j);c=GETC;tempColor+=VAL;
 
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
 
 float4 main(
 	float2 vTexcoord : TEXCOORD0,
-	float4 vColor : COLOR,
-	uniform float2 texture_size,
-	uniform float2 video_size,
+	uniform input IN, 
 	uniform sampler2D tex): COLOR
 {
    float2 offset   = frac((vTexcoord.xy * texture_size.xy) - float2(0.5, 0.5));
