@@ -86,7 +86,15 @@ float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float
 }
 
 
-
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
 
 struct out_vertex {
 	float4 position  : POSITION;
@@ -97,7 +105,7 @@ struct out_vertex {
 };
 
 /*    FRAGMENT SHADER    */
-float4 main(in out_vertex VAR, in uniform float2 texture_size,  uniform sampler2D decal : TEXUNIT0) : COLOR
+float4 main(in out_vertex VAR, 	uniform input IN,  uniform sampler2D decal : TEXUNIT0) : COLOR
 {
 	bool4 edri, edr, edr_left, edr_up, px; // px = pixel, edr = edge detection rule
 	bool4 interp_restriction_lv0, interp_restriction_lv1, interp_restriction_lv2_left, interp_restriction_lv2_up;
@@ -107,7 +115,7 @@ float4 main(in out_vertex VAR, in uniform float2 texture_size,  uniform sampler2
 	float4 deltaL        = float4(0.5/XBR_SCALE, 1.0/XBR_SCALE, 0.5/XBR_SCALE, 1.0/XBR_SCALE);
 	float4 deltaU        = deltaL.yxwz;
 
-	float2 fp = frac(VAR.texCoord*texture_size);
+	float2 fp = frac(VAR.texCoord*IN.texture_size);
 
 	float3 A  = tex2D(decal, VAR.t1.xw).rgb;
 	float3 B  = tex2D(decal, VAR.t1.yw).rgb;

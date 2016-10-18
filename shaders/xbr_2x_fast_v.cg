@@ -84,7 +84,15 @@ float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float
 //	return (1.0*df(a,b) + 2.0*df(c,d) + 2.0*df(e,f) + 4.0*df(g,h));
 }
 
-
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
 
 
 struct out_vertex {
@@ -98,16 +106,16 @@ struct out_vertex {
 /*    VERTEX_SHADER    */
 void main
 (
-	float3 aPosition,
+	float4 aPosition,
 	float2 aTexcoord,
+  uniform input IN, 
   uniform float4x4 wvp,
-	uniform float2 texture_size,
 	out out_vertex OUT
 )
 {
-  OUT.position = mul(float4(aPosition, 1.0), wvp);
+  OUT.position = mul(aPosition, wvp);
 
-	float2 ps = float2(1.0/texture_size.x, 1.0/texture_size.y);
+	float2 ps = float2(1.0/IN.texture_size.x, 1.0/IN.texture_size.y);
 	float dx = ps.x;
 	float dy = ps.y;
 
@@ -122,4 +130,3 @@ void main
 	OUT.t2 = aTexcoord.xxxy + float4( -dx, 0, dx,      0); //  D  E  F
 	OUT.t3 = aTexcoord.xxxy + float4( -dx, 0, dx,     dy); //  G  H  I
 }
-
