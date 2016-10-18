@@ -1,0 +1,91 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Copyright (C) 2006 guest(r) - guest.r@gmail.com
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+float3  dt = float3(1,1,1);
+
+/*
+   The AdvancedAA shader is well used to:
+   - AA 2xscaled gfx. to its 4x absolute size,   
+   - AA hi-res "screens" (640x480) to their 2x size or,
+   - AA gfx. back to it's original size (looks nice above 640x480, set scaling to 1.0) 
+*/
+
+/*
+	VERTEX_SHADER
+*/
+
+struct input
+{
+  float2 video_size;
+  float2 texture_size;
+  float2 output_size;
+  float  frame_count;
+  float  frame_direction;
+  float frame_rotation;
+};
+
+
+struct VERTEX_OUTPUT
+{
+  float4 position : POSITION;
+  float2 texCoord : TEXCOORD0;
+  float4 t1 : TEXCOORD1;
+  float4 t2 : TEXCOORD2;
+  float4 t3 : TEXCOORD3;
+  float4 t4 : TEXCOORD4;
+};
+
+#define AA_RESOLUTION_X_DEF IN.texture_size.x
+#define AA_RESOLUTION_Y_DEF IN.texture_size.y
+#define AA_RESOLUTION_X AA_RESOLUTION_X_DEF
+#define AA_RESOLUTION_Y AA_RESOLUTION_Y_DEF
+
+VERTEX_OUTPUT main
+(
+	float4 aPosition	: POSITION,
+	float2 aTexcoord : TEXCOORD0,
+  uniform float4x4 wvp,
+	uniform input IN
+)
+{
+	VERTEX_OUTPUT OUT;
+
+	OUT.position = mul(aPosition, wvp);
+
+	float2 ps = float2(1.0/((AA_RESOLUTION_X == 0) ? AA_RESOLUTION_X_DEF : AA_RESOLUTION_X), 1.0/((AA_RESOLUTION_Y == 0) ? AA_RESOLUTION_Y_DEF : AA_RESOLUTION_Y));
+	float dx = ps.x*0.5;
+	float dy = ps.y*0.5;
+
+	
+	OUT.texCoord = aTexcoord;
+	OUT.t1.xy = aTexcoord + float2(-dx, 0);
+	OUT.t2.xy = aTexcoord + float2( dx, 0);
+	OUT.t3.xy = aTexcoord + float2( 0,-dy);
+	OUT.t4.xy = aTexcoord + float2( 0, dy);
+	OUT.t1.zw = aTexcoord + float2(-dx,-dy);
+	OUT.t2.zw = aTexcoord + float2(-dx, dy);
+	OUT.t3.zw = aTexcoord + float2( dx,-dy);
+	OUT.t4.zw = aTexcoord + float2( dx, dy);
+
+	return OUT;
+}
