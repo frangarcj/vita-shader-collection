@@ -8,17 +8,27 @@
    License: Public domain
 */
 
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
+
 void main (
-    float3 aPosition, 
+    float4 aPosition, 
     float2 aTexcoord, 
     uniform float4x4 wvp,
-    uniform float2 texture_size,
+    uniform input IN, 
     out float4 vPosition : POSITION,
     out float2 vTexcoord : TEXCOORD0,
     out float2 omega : TEXCOORD1
     )
 {
-    vPosition = mul(float4(aPosition, 1.f),wvp);
+    vPosition = mul(aPosition, wvp);
     vTexcoord = aTexcoord;
-    omega = 3.141592654 * 2 * texture_size;
+    omega = 3.141592654 * 2 * IN.texture_size;
 }
