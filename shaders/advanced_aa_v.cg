@@ -60,15 +60,15 @@ struct VERTEX_OUTPUT
 #define AA_RESOLUTION_X AA_RESOLUTION_X_DEF
 #define AA_RESOLUTION_Y AA_RESOLUTION_Y_DEF
 
-VERTEX_OUTPUT main
+void main
 (
 	float4 aPosition	: POSITION,
 	float2 aTexcoord : TEXCOORD0,
   uniform float4x4 wvp,
-	uniform input IN
+	uniform input IN,
+  out VERTEX_OUTPUT OUT
 )
 {
-	VERTEX_OUTPUT OUT;
 
 	OUT.position = mul(aPosition, wvp);
 
@@ -87,5 +87,5 @@ VERTEX_OUTPUT main
 	OUT.t3.zw = aTexcoord + float2( dx,-dy);
 	OUT.t4.zw = aTexcoord + float2( dx, dy);
 
-	return OUT;
+	OUT;
 }
