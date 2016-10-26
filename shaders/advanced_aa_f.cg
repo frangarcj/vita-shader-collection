@@ -48,7 +48,7 @@ struct VERTEX_INPUT
 };
 
 
-float4 main(in VERTEX_INPUT VAR, uniform sampler2D decal : TEXUNIT0) : COLOR
+float4 main(in VERTEX_INPUT VAR, uniform VERTEX_INPUT IN, uniform sampler2D decal : TEXUNIT0) : COLOR
 {
    float3 c00 = tex2D(decal, VAR.t1.zw).xyz; 
    float3 c10 = tex2D(decal, VAR.t3.xy).xyz;
