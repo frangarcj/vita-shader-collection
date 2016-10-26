@@ -1,0 +1,62 @@
+/*
+	Scale2x
+
+Filter:	Nearest
+Scale:	2x
+
+Scale2x is real-time graphics effect able to increase the size of small bitmaps guessing the missing pixels without blurring the images.
+It was originally developed for the AdvanceMAME project in the year 2001 to improve the quality of old games with a low video resolution.
+
+Homepage: http://scale2x.sourceforge.net/
+Copyright (C) 2001, 2002, 2003, 2004 Andrea Mazzoleni 
+License: GNU-GPL  
+
+*/
+
+
+bool eq(float3 A, float3 B){
+	return all(A==B);
+}
+
+bool neq(float3 A, float3 B){
+	return any(A!=B);
+}
+
+struct input
+{
+	float2 video_size;
+	float2 texture_size;
+	float2 output_size;
+};
+
+
+struct out_vertex {
+	float4 aPosition : POSITION;
+	float2 Texcoord : TEXCOORD0;
+	float4 t1 : TEXCOORD1;
+	float4 t2 : TEXCOORD2;
+};
+
+/*    VERTEX_SHADER    */
+void main
+(
+	float4 aPosition	: POSITION,
+	float2 aTexcoord : TEXCOORD0,
+
+  uniform float4x4 wvp,
+	uniform input IN,
+  out out_vertex OUT
+)
+{
+
+	OUT.aPosition = mul(aPosition, wvp);
+
+	float2 ps = float2(1.0/IN.texture_size.x, 1.0/IN.texture_size.y);
+	float dx = ps.x;
+	float dy = ps.y;
+
+	OUT.Texcoord = aTexcoord;				// E
+	OUT.t1 = aTexcoord.xyxy + float4(  0,-dy,-dx,  0);	// B, D
+	OUT.t2 = aTexcoord.xyxy + float4( dx,  0,  0, dy);	// F, H	
+
+}
