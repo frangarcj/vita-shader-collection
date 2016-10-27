@@ -1,0 +1,46 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Author: Themaister
+   License: Public domain
+*/
+
+struct sine_coord
+{
+   float2 texel;
+   float2 offset;
+   float2 omega;
+};
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+   float  frame_count;
+   float  frame_direction;
+   float frame_rotation;
+};
+
+void main
+(
+   float4 aPosition : POSITION,
+   out float4 oPosition : POSITION,
+   uniform float4x4 wvp,
+   float2 aTexcoord : TEXCOORD,
+   out float2 oTex : TEXCOORD,
+
+   uniform input IN,
+   out sine_coord coords : TEXCOORD2
+)
+{
+   oPosition = mul(aPosition, wvp);
+   oTex = aTexcoord;
+
+   coords.texel = aTexcoord * IN.texture_size;
+   coords.offset = aTexcoord - float2(0.0, 0.25 / IN.texture_size.y);
+   coords.omega = float2(3.1415 * IN.output_size.x * IN.texture_size.x / IN.video_size.x, 2.0 * 3.1415 * IN.texture_size.y);
+}
