@@ -136,18 +136,18 @@ float4 main(uniform sampler2D tex : TEXUNIT0, float2 coords : TEXCOORD0, uniform
     float bright = (max(col.r, max(col.g, col.b)) + luma) / 2.0;
     float scan_bright = clamp(bright, SCANLINE_BRIGHT_MIN, SCANLINE_BRIGHT_MAX);
     float scan_beam = clamp(bright * SCANLINE_BEAM_WIDTH_MAX, SCANLINE_BEAM_WIDTH_MIN, SCANLINE_BEAM_WIDTH_MAX);
-    float scan_weight = 1.0 - pow(cos(coords.y * 2.0 * PI * IN.texture_size.y) * 0.5 + 0.5, scan_beam) * SCANLINE_STRENGTH;
+    float scan_weight = 1.0 - pow(cos(coords.x * 2.0 * PI * IN.texture_size.x) * 0.5 + 0.5, scan_beam) * SCANLINE_STRENGTH;
 
     float mask = 1.0 - MASK_STRENGTH;    
     float2 mod_fac = floor(coords * IN.output_size * IN.texture_size / (IN.video_size * float2(MASK_SIZE, MASK_DOT_HEIGHT * MASK_SIZE)));
-    int dot_no = int(fmod((mod_fac.x + fmod(mod_fac.y, 2.0) * MASK_STAGGER) / MASK_DOT_WIDTH, 3.0));
+    int dot_no = int(fmod((mod_fac.y + fmod(mod_fac.x, 2.0) * MASK_STAGGER) / MASK_DOT_WIDTH, 3.0));
     float3 mask_weight;
 
     if (dot_no == 0) mask_weight = float3(1.0, mask, mask);
     else if (dot_no == 1) mask_weight = float3(mask, 1.0, mask);
     else mask_weight = float3(mask, mask, 1.0);
 
-    if (IN.video_size.y >= SCANLINE_CUTOFF) scan_weight = 1.0;
+    if (IN.video_size.x >= SCANLINE_CUTOFF) scan_weight = 1.0;
 
     col2 = col.rgb;
     col *= float3(scan_weight);
