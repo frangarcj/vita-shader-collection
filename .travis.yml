@@ -8,7 +8,7 @@ before_install:
   - tar xjf *.tar.bz2
   - export VITASDK=$PWD/vitasdk
   - export PATH=$VITASDK/bin:$PATH
-  - wget https://releases.linaro.org/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - wget https://releases.linaro.org/archive/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
   - tar xf gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
   - export PATH=$(pwd)/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/bin:$PATH
   - rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
