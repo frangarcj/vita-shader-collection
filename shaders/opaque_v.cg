@@ -5,6 +5,6 @@ void main(
 	float4 out vPosition : POSITION,
 	float2 out vTexcoord : TEXCOORD0)
 {
-	vPosition = mul(aPosition, wvp);
+	vPosition = mul(aPosition, transpose(wvp));
 	vTexcoord = aTexcoord;
 }
