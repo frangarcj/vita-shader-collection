@@ -9,8 +9,8 @@
 */
 
 /* configuration (higher values mean brighter image but reduced effect depth) */
-static const int brighten_scanlines = 16;
-static const int brighten_lcd = 4;
+static const int brighten_scanlines = 32;
+static const int brighten_lcd = 12;
 
 
 static const float3 offsets = 3.141592654 * float3(1.0/2,1.0/2 - 2.0/3,1.0/2-4.0/3);
@@ -32,4 +32,3 @@ float4 main (
    
     return float4(color.x, color.y, color.z, 1.0);
 }
-
