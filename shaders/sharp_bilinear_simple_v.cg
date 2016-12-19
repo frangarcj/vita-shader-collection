@@ -1,0 +1,50 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Author: rsn8887 (based on TheMaister)
+   License: Public domain
+
+   This is an integer prescale filter that should be combined
+   with a bilinear hardware filtering (GL_BILINEAR filter or some such) to achieve
+   a smooth scaling result with minimum blur. This is good for pixelgraphics
+   that are scaled by non-integer factors.
+   
+   The prescale factor and texel coordinates are precalculated
+   in the vertex shader for speed.
+*/
+
+struct precalc_coord
+{
+   float2 texel;
+   float2 prescale;
+};
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+};
+
+void main
+(
+   float4 aPosition : POSITION,
+   out float4 oPosition : POSITION,
+   uniform float4x4 wvp,
+   float2 aTexcoord : TEXCOORD,
+   out float2 oTex : TEXCOORD,
+
+   uniform input IN,
+   out precalc_coord co: TEXCOORD2
+)
+{
+   oPosition = mul(aPosition, wvp);
+   oTex = aTexcoord;
+   
+   //precalculate some values to pass to the fragment shader
+   co.texel = aTexcoord * IN.texture_size;
+   co.prescale = floor(IN.output_size / IN.texture_size);
+}
