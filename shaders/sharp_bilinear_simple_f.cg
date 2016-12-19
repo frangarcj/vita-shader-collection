@@ -1,0 +1,49 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Author: rsn8887 (based on TheMaister)
+   License: Public domain
+
+   This is an integer prescale filter that should be combined
+   with a bilinear hardware filtering (GL_BILINEAR filter or some such) to achieve
+   a smooth scaling result with minimum blur. This is good for pixelgraphics
+   that are scaled by non-integer factors.
+   
+   The prescale factor and texel coordinates are precalculated
+   in the vertex shader for speed.
+*/
+
+struct precalc_coord
+{
+   float2 texel;
+   float2 prescale;
+};
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+};
+
+float4 main(in precalc_coord co : TEXCOORD2, uniform sampler2D s0 : TEXUNIT0, uniform input IN) : COLOR
+{
+   //co.texel has already been multiplied by texture_size inside vertex shader
+   float2 texel_floored = floor(co.texel);
+   float2 s = frac(co.texel);
+   //prescale is the largest possible integer scale, calculated in vertex shader
+   float2 region_range = 0.5 - 0.5 / co.prescale;
+
+   // Figure out where in the texel to sample to get correct pre-scaled bilinear.
+   // Uses the hardware bilinear interpolator to avoid having to sample 4 times manually.
+ 
+   float2 center_dist = s - 0.5;
+   float2 f = (center_dist - clamp(center_dist, -region_range, region_range)) * co.prescale + 0.5;
+   float2 mod_texel = texel_floored + f;
+   
+   return float4(tex2D(s0, mod_texel / IN.texture_size).rgb, 1.0);
+   
+}
