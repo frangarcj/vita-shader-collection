@@ -18,8 +18,8 @@ before_install:
 script:
   - make
   - mkdir -p output/lib
-  - mkdir -p output/includes
-  - cp shaders/*.h output/includes/
+  - mkdir -p output/include
+  - cp shaders/*.h output/include/
   - cp libvitashaders.a output/lib/
   - tar -zcvf vita-shader-collection.tar.gz -C output .
 env:
