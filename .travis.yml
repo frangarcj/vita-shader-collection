@@ -7,10 +7,8 @@ before_install:
   - curl -L "https://api.github.com/repos/vitasdk/autobuilds/releases?per_page=100" | jq -r '[.[] | select(.prerelease | not)][].assets[].browser_download_url' | grep 'master' | grep 'x86_64-linux' | head -n 1 | xargs curl -L | tar xj
   - export VITASDK=$PWD/vitasdk
   - export PATH=$VITASDK/bin:$PATH
-  - wget https://releases.linaro.org/archive/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
-  - tar xf gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
+  - curl -L "https://releases.linaro.org/archive/15.02/components/toolchain/binaries/arm-linux-gnueabihf/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz" | tar xJ
   - export PATH=$(pwd)/gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf/bin:$PATH
-  - rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
   - git clone https://github.com/JagerDesu/vita-shaders
   - cd vita-shaders
   - make
