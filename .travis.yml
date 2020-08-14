@@ -21,7 +21,7 @@ script:
   - mkdir -p output/include
   - cp shaders/*.h output/include/
   - cp libvitashaders.a output/lib/
-  - tar -zcvf vita-shader-collection.tar.gz -C output .
+  - tar -zcvf vita-shader-collection.tar.gz -C output include lib
 env:
  global:
   - TOP=$PWD
